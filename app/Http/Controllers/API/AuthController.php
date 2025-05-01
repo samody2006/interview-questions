@@ -7,7 +7,8 @@ use App\Http\Requests\AuthRequest;
 use App\Http\Requests\LoginRequest;
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -18,6 +19,11 @@ class AuthController extends Controller
         $this->authService = $authService;
     }
 
+    /**
+     * Registration Resources
+     * @param AuthRequest $request
+     * @return JsonResponse
+     */
     public function register(AuthRequest $request): JsonResponse
     {
         $data = $this->authService->register($request->validated());
@@ -29,6 +35,12 @@ class AuthController extends Controller
         ], 201);
     }
 
+    /**
+     * Login Resources
+     * @param LoginRequest $request
+     * @return JsonResponse
+     * @throws ValidationException
+     */
     public function login(LoginRequest $request): JsonResponse
     {
         $data = $this->authService->login($request->validated());
@@ -40,21 +52,34 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * Logout Resources
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function logout(Request $request): JsonResponse
     {
-        $request->user()->currentAccessToken()->delete();
+        $this->authService->logout($request);
 
         return response()->json([
             'success' => true,
-            'message' => 'Logged out successfully'
+            'message' => 'Logged out successfully',
         ]);
     }
 
+    /**
+     * Get Authenticated User Resources
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function user(Request $request): JsonResponse
     {
+        $user = $this->authService->getAuthenticatedUser($request);
+
         return response()->json([
             'success' => true,
-            'data' => $request->user()
+            'message' => 'User returned successfully',
+            'data' => $user,
         ]);
     }
 }

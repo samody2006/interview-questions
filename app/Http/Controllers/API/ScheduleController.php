@@ -19,6 +19,11 @@ class ScheduleController extends Controller
         $this->scheduleService = $scheduleService;
     }
 
+    /**
+     * Fetch all schedules for a zone
+     * @param zone $zone
+     * @return JsonResponse
+     */
     public function index(Zone $zone): JsonResponse
     {
         return response()->json([
@@ -27,6 +32,12 @@ class ScheduleController extends Controller
         ]);
     }
 
+    /**
+     * Create a schedule for a zone
+     * @param ScheduleRequest $request
+     * @param zone $zone
+     * @return JsonResponse
+     */
     public function store(ScheduleRequest $request, Zone $zone): JsonResponse
     {
         $schedule = $this->scheduleService->createSchedule($zone, $request->validated());
@@ -38,6 +49,12 @@ class ScheduleController extends Controller
         ], 201);
     }
 
+    /**
+     * Fetch a schedule for a zone
+     * @param zone $zone
+     * @param Schedule $schedule
+     * @return JsonResponse
+     */
     public function show(Zone $zone, Schedule $schedule): JsonResponse
     {
         $found = $this->scheduleService->getSchedule($zone, $schedule);
@@ -55,6 +72,13 @@ class ScheduleController extends Controller
         ]);
     }
 
+    /**
+     * Update a schedule for a zone
+     * @param ScheduleRequest $request
+     * @param zone $zone
+     * @param Schedule $schedule
+     * @return JsonResponse
+     */
     public function update(ScheduleRequest $request, Zone $zone, Schedule $schedule): JsonResponse
     {
         $updated = $this->scheduleService->updateSchedule($zone, $schedule, $request->validated());
@@ -73,6 +97,12 @@ class ScheduleController extends Controller
         ]);
     }
 
+    /**
+     * Delete a schedule for a zone
+     * @param zone $zone
+     * @param Schedule $schedule
+     * @return JsonResponse
+     */
     public function destroy(Zone $zone, Schedule $schedule): JsonResponse
     {
         $deleted = $this->scheduleService->deleteSchedule($zone, $schedule);

@@ -488,7 +488,7 @@ The API will return appropriate HTTP status codes for different types of errors:
 For endpoints requiring authentication, include the token in the Authorization header:
 
 ```
-Authorization: Bearer 1|AbCdEfGhIjKlMnOpQrStUvWxYz123456
+Authorization: Bearer 1|FMFLpBJBp2pYg3XjB7Q7r9L4192gnWAgKpxTQaq2
 ```
 
 ## Postman Collection

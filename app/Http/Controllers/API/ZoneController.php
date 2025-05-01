@@ -17,6 +17,10 @@ class ZoneController extends Controller
         $this->zoneService = $zoneService;
     }
 
+    /**
+     * Fetch all zones
+     * @return JsonResponse
+     */
     public function index(): JsonResponse
     {
         $zones = $this->zoneService->getAllZones();
@@ -27,6 +31,11 @@ class ZoneController extends Controller
         ]);
     }
 
+    /**
+     * Create a zone
+     * @param ZoneRequest $request
+     * @return JsonResponse
+     */
     public function store(ZoneRequest $request): JsonResponse
     {
         $zone = $this->zoneService->storeZone($request->validated());
@@ -39,6 +48,11 @@ class ZoneController extends Controller
     }
 
 
+    /**
+     * Fetch a zone
+     * @param zone $zone
+     * @return JsonResponse
+     */
     public function show(Zone $zone): JsonResponse
     {
         return response()->json([
@@ -48,6 +62,12 @@ class ZoneController extends Controller
     }
 
 
+    /**
+     * Update a zone
+     * @param ZoneRequest $request
+     * @param zone $zone
+     * @return JsonResponse
+     */
     public function update(ZoneRequest $request, Zone $zone): JsonResponse
     {
         $updatedZone = $this->zoneService->updateZone($zone, $request->validated());
@@ -59,6 +79,11 @@ class ZoneController extends Controller
         ]);
     }
 
+    /**
+     * Delete a zone
+     * @param zone $zone
+     * @return JsonResponse
+     */
     public function destroy(Zone $zone): JsonResponse
     {
         $this->zoneService->deleteZone($zone);
@@ -69,6 +94,11 @@ class ZoneController extends Controller
         ]);
     }
 
+    /**
+     * Start watering
+     * @param zone $zone
+     * @return JsonResponse
+     */
     public function startWatering(Zone $zone): JsonResponse
     {
         $result = $this->zoneService->startWatering($zone);
@@ -79,6 +109,11 @@ class ZoneController extends Controller
         ], $result['status'] ? 200 : 400);
     }
 
+    /**
+     * Stop watering
+     * @param zone $zone
+     * @return JsonResponse
+     */
     public function stopWatering(Zone $zone): JsonResponse
     {
         $result = $this->zoneService->stopWatering($zone);
@@ -89,6 +124,11 @@ class ZoneController extends Controller
         ], $result['status'] ? 200 : 400);
     }
 
+    /**
+     * Get watering status
+     * @param zone $zone
+     * @return JsonResponse
+     */
     public function wateringStatus(Zone $zone): JsonResponse
     {
         $status = $this->zoneService->getWateringStatus($zone);

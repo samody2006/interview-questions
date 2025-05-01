@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Validation\ValidationException;
 
 class AuthService
@@ -43,5 +44,15 @@ class AuthService
             'access_token' => $token,
             'token_type' => 'Bearer',
         ];
+    }
+
+    public function logout(Request $request): void
+    {
+        $request->user()->currentAccessToken()->delete();
+    }
+
+    public function getAuthenticatedUser(Request $request)
+    {
+        return $request->user();
     }
 }
